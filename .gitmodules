@@ -1,0 +1,4 @@
+[submodule "jni/hlsdk"]
+	path = jni/hlsdk
+	url = https://github.com/nekonomicon/hlsdk-xash3d
+	branch = half-screwed
