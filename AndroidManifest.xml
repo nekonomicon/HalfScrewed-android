@@ -7,7 +7,8 @@
     <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="23"/>
     <!-- Set your application name here -->
     <application android:label="Half-Screwed Death and Rebirth"
-		android:debuggable="false">
+		android:debuggable="false"
+		android:icon="@drawable/logo_xash_hs">
     <!-- Set your launcher title here -->
         <activity android:name="su.xash.xash3d.LauncherActivity"
                   android:label="Half-Screwed Death and Rebirth"
