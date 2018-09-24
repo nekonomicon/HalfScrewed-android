@@ -2,8 +2,8 @@
 <!-- Set your package name here -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="su.xash.xash3d.hscrewed"
-      android:versionCode="1"
-      android:versionName="1.0">
+      android:versionCode="464"
+      android:versionName="1.1">
     <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="23"/>
     <!-- Set your application name here -->
     <application android:label="Half-Screwed Death and Rebirth"
