@@ -36,23 +36,36 @@ public class LauncherActivity extends Activity {
 
 	public void startXash(View view)
 	{
+		String argv = cmdArgs.getText().toString();
 		Intent intent = new Intent();
 		intent.setAction("in.celest.xash3d.START");
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
 		SharedPreferences.Editor editor = mPref.edit();
-		editor.putString("argv", cmdArgs.getText().toString());
+		editor.putString("argv", argv);
 		editor.commit();
 
-		if(cmdArgs.length() != 0) intent.putExtra("argv", cmdArgs.getText().toString());
+		if(cmdArgs.length() != 0) intent.putExtra("argv", argv);
 		// Uncomment to set gamedir here
 		intent.putExtra("gamedir", "half-screwed" );
 		intent.putExtra("gamelibdir", getFilesDir().getAbsolutePath().replace("/files","/lib"));
 
 		PackageManager pm = getPackageManager();
-		if(intent.resolveActivity(pm) != null)
+		ComponentName cn = intent.resolveActivity(pm);
+		if(cn != null)
 		{
-			startActivity(intent);
+			String packageName = cn.getPackageName();
+			String versionName;
+			try{
+				versionName = pm.getPackageInfo(packageName, 0).versionName;
+			}catch(PackageManager.NameNotFoundException e){
+				showXashErrorDialog(e.toString());
+				return;
+			}
+			if(0 <= versionName.compareTo("0.19.3"))
+				startActivity(intent);
+			else
+				showXashUpdateDialog();
 		}
 		else
 		{
@@ -60,12 +73,27 @@ public class LauncherActivity extends Activity {
 		}
 	}
 
-	public void showXashInstallDialog(String msg)
+	public void showXashDialog(String title, String msg)
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-		builder.setTitle("Xash error")
-		.setMessage(msg + getString(R.string.alert_dialog_text))
+		builder.setTitle(title)
+		.setMessage(msg)
 		.show();
+	}
+
+	public void showXashErrorDialog(String msg)
+	{
+		showXashDialog("Xash Error", msg);
+	}
+
+	public void showXashInstallDialog(String msg)
+	{
+		showXashErrorDialog(msg + getString(R.string.alert_install_dialog_text));
+	}
+
+	public void showXashUpdateDialog()
+	{
+		showXashErrorDialog(getString(R.string.alert_update_dialog_text));
 	}
 }
